@@ -324,12 +324,11 @@ const getDashboardData = async (req, res) => {
                 }
             }
         ]);
-        const taskDistribution = taskStatuses.reduce((acc, status) => {
-            const formattedKey = status.replace(/\s+/g, "");
-            acc[formattedKey] =
-                taskDistributionRaw.find((item) => item._id === status)?.count || 0;
-            return acc;
-        }, {})
+      const taskDistribution = taskStatuses.reduce((acc, status) => {
+    const formattedKey = status.replace(/\s+/g, "");
+    acc[formattedKey] = taskDistributionRaw.find((item) => item._id === status)?.count || 0;
+    return acc;
+}, {});
         taskDistribution["All"] = totalTasks;
 
         // Ensure all priority levels are included
@@ -337,7 +336,7 @@ const getDashboardData = async (req, res) => {
         const taskPriorityLevelsRaw = await Task.aggregate([
             {
                 $group: {
-                    _id: "$status",
+                    _id: "$priority",
                     count: { $sum: 1 }
                 }
             }
@@ -384,7 +383,7 @@ const getDashboardData = async (req, res) => {
 const getUserDashboardData = async (req, res) => {
     try {
 
-        const userId = req.user_id; // Only fetch data for the logged-in user
+        const userId = req.user._id; // Only fetch data for the logged-in user
 
         // Fetch statistics for user-specific tasks
         const totalTasks = await Task.countDocuments({ assignedTo: userId });
