@@ -35,6 +35,12 @@ app.use("/api/reports", reportRoutes);
 // serve upload folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+
+// ✅ Welcome route
+app.get("/", (req, res) => {
+  res.send("✅ Welcome to the Task Manager API — deployed on Vercel!");
+});
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>console.log(`Server is running at ${PORT}`))
