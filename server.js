@@ -13,7 +13,9 @@ const app = express();
 // ✅ Absolute bulletproof CORS configuration
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  "http://localhost:3000" // For local development
+  "https://kelvinndoma.vercel.app",
+  "kelvinndomamutua.com"
+   // For local development
 ].filter(Boolean); // Remove any undefined values
 
 app.use(cors({
