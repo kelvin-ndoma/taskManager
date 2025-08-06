@@ -1,46 +1,45 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const path= require('path');
+const path = require("path");
+
 const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes")
-const userRoutes = require("./routes/userRoutes")
-const taskRoutes = require("./routes/taskRoutes")
-const reportRoutes = require("./routes/reportRoutes")
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const taskRoutes = require("./routes/taskRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 
 const app = express();
 
-// Middleware to handle CORS
+// ✅ CORS setup to allow your frontend
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "*",
+    origin: "https://kelvinndoma.vercel.app", // Only allow this origin
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // If you're sending cookies or auth headers
   })
 );
 
-// connect database
+// ✅ Connect to database
 connectDB();
-// Middleware
+
+// ✅ JSON middleware
 app.use(express.json());
 
-
-
-// Routes
+// ✅ API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/reports", reportRoutes);
 
-// serve upload folder
+// ✅ Static file serving for uploads (if used)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
-// ✅ Welcome route
+// ✅ Health check / welcome route
 app.get("/", (req, res) => {
-  res.send("✅ Welcome to the Task Manager API — deployed on Vercel!");
+  res.send("✅ Welcome to the Task Manager API — deployed on Render!");
 });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>console.log(`Server is running at ${PORT}`))
+// ✅ Start the server
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
