@@ -10,15 +10,21 @@ const reportRoutes = require("./routes/reportRoutes")
 
 const app = express();
 
-const port = process.env.PORT || 4000
-
+// Middleware to handle CORS
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // connect database
 connectDB();
 // Middleware
 app.use(express.json());
 
-app.use(cors())
+
 
 // Routes
 app.use("/api/auth", authRoutes);

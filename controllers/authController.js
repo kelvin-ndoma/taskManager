@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
         // check if user already exists
         const userExists = await User.findOne({ email });
         if (userExists){
-            return res.status(400).json({ message: "User already exixts"});
+            return res.status(400).json({ message: "User already exists"});
         }
         //  Determine user role: Admin if correct token is provided, otherwise member
         let role = "member";
@@ -50,8 +50,7 @@ const registerUser = async (req, res) => {
             token: generateToken(user._id),
         })
     } catch (error) {
-        res.json(500).json({ message: "Server error", error: error.message})
-        
+        res.status(500).json({ message: "Server error", error: error.message})
     }
 };
 
@@ -71,7 +70,7 @@ const loginUser = async (req, res) => {
     }
 
     // Return user data with JWT
-    res.json({
+    res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -80,11 +79,9 @@ const loginUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-        res.json(500).json({ message: "Server error", error: error.message})
-        
-    }
+    res.status(500).json({ message: "Server error", error: error.message})
+  }
 };
-
 
 // @desc    Get user profile
 // @route    GET /api/auth/profile
@@ -96,12 +93,11 @@ const getUserProfile = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 // @desc    Update user profile
 // @route    PUT /api/auth/profile
@@ -124,7 +120,7 @@ const updateUserProfile = async (req, res) => {
 
     const updatedUser = await user.save();
 
-    res.json({
+    res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
@@ -135,6 +131,5 @@ const updateUserProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile };
