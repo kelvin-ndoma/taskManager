@@ -11,12 +11,15 @@ const reportRoutes = require("./routes/reportRoutes");
 
 const app = express();
 
-// ✅ CORS setup to allow your frontend
+// ✅ CORS setup for multiple allowed domains
 app.use(
   cors({
-    origin: "https://kelvinndoma.vercel.app", // Only allow this origin
+    origin: [
+      "https://kelvinndoma.vercel.app",
+      "https://kelvinndomamutua.com"
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // If you're sending cookies or auth headers
+    credentials: true,
   })
 );
 
@@ -32,10 +35,10 @@ app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/reports", reportRoutes);
 
-// ✅ Static file serving for uploads (if used)
+// ✅ Static file serving for uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ✅ Health check / welcome route
+// ✅ Health check route
 app.get("/", (req, res) => {
   res.send("✅ Welcome to the Task Manager API — deployed on Render!");
 });
