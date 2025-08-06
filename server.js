@@ -14,7 +14,7 @@ const app = express();
 // ✅ CORS setup to allow your frontend
 app.use(
   cors({
-    origin: ["https://kelvinndoma.vercel.app", "https://kelvinndomamutua.com"], // Array of allowed origins
+    origin: ["https://kelvinndoma.vercel.app", "https://kelvinndomamutua.com", "https://www.kelvinndomamutua.com"], // Array of allowed origins
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // If you're sending cookies or auth headers
   })
